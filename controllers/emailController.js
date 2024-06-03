@@ -8,9 +8,9 @@ exports.sendEmail = async (req, res) => {
     const password = process.env.PASSWORD;
     console.log(email + ' \n' + emailUser + ' \n' + password);
     const transporter = nodemailer.createTransport({
-      host: 'live.smtp.mailtrap.io',
-      port: 587,
-      secure: false,
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
         user: emailUser,
         pass: password
