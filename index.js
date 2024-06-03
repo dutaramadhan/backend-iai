@@ -14,11 +14,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const port = 3000;
+const port = process.env.PORT;
 
 
 setupDB()
-app.use('/api/v1/gmail', emailRouter);
+app.use('/api/v1/email', emailRouter);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

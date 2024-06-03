@@ -4,21 +4,27 @@ const emailModel = require('../models/emailModel');
 exports.sendEmail = async (req, res) => {
  try{
     const email = new emailModel(req.body);
+    const emailUser = process.env.EMAIL;
+    const password = process.env.PASSWORD;
+    console.log(email + ' \n' + emailUser + ' \n' + password);
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'live.smtp.mailtrap.io',
+      port: 587,
+      secure: false,
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD
+        user: emailUser,
+        pass: password
       }
     });
     const mailOptions = {
-      from: process.env.EMAIL,
+      from: emailUser,
       to: email.to,
       subject: email.subject,
-      text: email.text
+      text: email.text,
+      html: email.html
     };
-    await transporter.sendMail(mailOptions);
-    await email.save();
+    transporter.sendMail(mailOptions);
+    // await email.save();
     res.status(200).json(
       {
         status: 'success',
