@@ -5,20 +5,102 @@ require('dotenv').config();
 exports.sendEmail = async (req, res) => {
     try {
         const { checks, userEmail } = req.body;
+        console.log(checks);
+        console.log(userEmail);
 
-        let htmlContent = "<h1>Detail Medical Record - DiCheck</h1>";
-        checks.forEach((check, index) => {
-            htmlContent += `
-                <p><strong>Symptoms:</strong> ${check.symptoms.join(', ')}</p>
-                <p><strong>Disease:</strong> ${check.disease}</p>
-                <p> ${check.description}</p>
-                <p><strong>Treatment Advice:</strong> ${check.recommendations.join(', ')}</p>
-                <p><strong>Medicine Name:</strong> ${check.medications.join(', ')}</p>
-                <hr />
-                <p><strong>Kamu menerima detail check ini pada tanggal:</strong> ${check.record_date}</p>
-            `;
-        });
+        // let htmlContent = "<h1>Detail Medical Record - DiCheck</h1>";
+        // checks.forEach((check, index) => {
+        //     htmlContent += `
+        //         <p><strong>Symptoms:</strong> ${check.symptoms.join(', ')}</p>
+        //         <p><strong>Disease:</strong> ${check.disease}</p>
+        //         <p> ${check.description}</p>
+        //         <p><strong>Treatment Advice:</strong> ${check.recommendations.join(', ')}</p>
+        //         <p><strong>Medicine Name:</strong> ${check.medications.join(', ')}</p>
+        //         <hr />
+        //         <p><strong>Kamu menerima detail check ini pada tanggal:</strong> ${check.record_date}</p>
+        //     `;
+        // });
 
+        // let htmlContent1 = ``
+        const htmlContent1 = 
+                `
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                line-height: 1.6;
+                            }
+                            .container {
+                                max-width: 600px;
+                                margin: 0 auto;
+                                padding: 20px;
+                                border: 1px solid #ddd;
+                                border-radius: 5px;
+                            }
+                            h1 {
+                                color: #333;
+                            }
+                            .section {
+                                margin-bottom: 20px;
+                            }
+                            .section strong {
+                                display: block;
+                                margin-bottom: 5px;
+                            }
+                            .section p {
+                                margin: 5px 0;
+                            }
+                            .button {
+                                display: inline-block;
+                                padding: 10px 20px;
+                                background-color: #ff4081;
+                                color: white;
+                                text-decoration: none;
+                                border-radius: 5px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <h1>Detail Checks</h1>
+                            <p>Berikut detail medical record yang kamu buat!</p>
+                            ${checks.map(check => `
+                            <div class="section">
+                                <strong>Symptoms</strong>
+                                <ul>
+                                    ${check.symptoms.map(symptom => `<li>${symptom}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="section">
+                                <strong>Disease</strong>
+                                <p>${check.disease}</p>
+                                <p>${check.description}</p>
+                            </div>
+                            <div class="section">
+                                <strong>Treatment Advice</strong>
+                                <ul>
+                                    ${check.recommendations.map(recommendation => `<li>${recommendation}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="section">
+                                <strong>Medicine Name</strong>
+                                <ul>
+                                    ${check.medications.map(medication => `<li>${medication}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="section">
+                                <strong>Keterangan</strong>
+                                <p>Kamu menerima detail check ini pada tanggal ${new Date(check.record_date).toLocaleDateString('id-ID')} pukul ${new Date(check.record_date).toLocaleTimeString('id-ID')} </p>
+                            </div>
+                            `).join('')}
+                        </div>
+                    </body>
+                    </html>
+                `
         const emailHost = process.env.EMAIL;
         const password = process.env.PASSWORD;
 
@@ -34,9 +116,10 @@ exports.sendEmail = async (req, res) => {
 
         const mailOptions = {
             from: emailHost,
-            to: userEmail,
+            // to: userEmail,
+            to:userEmail,
             subject: "Detail Medical Record - DiCheck",
-            html: htmlContent
+            html: htmlContent1
         };
 
       await transporter.sendMail(mailOptions);
@@ -46,7 +129,7 @@ exports.sendEmail = async (req, res) => {
             to: userEmail,
             subject: "Detail Medical Record - DiCheck",
             text: "",
-            html: htmlContent
+            html: htmlContent1
         });
         await email.save();
 
