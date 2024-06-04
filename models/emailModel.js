@@ -15,14 +15,14 @@ const emailSchema = new Schema({
     type: String,
     required: false
   },
-  text: {
-    type: String,
+  data: {
+    type: Object,
     required: false
   },
-  html: {
-    type: String,
-    required: false
-  }
-});
+}
+, {
+  timestamps: true
+}
+);
 
 module.exports = mongoose.model('Email', emailSchema);

@@ -5,8 +5,6 @@ require('dotenv').config();
 exports.sendEmail = async (req, res) => {
     try {
         const { checks, userEmail } = req.body;
-        console.log(checks);
-        console.log(userEmail);
 
         // let htmlContent = "<h1>Detail Medical Record - DiCheck</h1>";
         // checks.forEach((check, index) => {
@@ -29,7 +27,7 @@ exports.sendEmail = async (req, res) => {
                     <head>
                         <meta charset="UTF-8">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <style>
+                            <style>
                             body {
                                 font-family: Arial, sans-serif;
                                 line-height: 1.6;
@@ -43,6 +41,8 @@ exports.sendEmail = async (req, res) => {
                             }
                             h1 {
                                 color: #333;
+                                font: bold;
+                                font-size: x-large;
                             }
                             .section {
                                 margin-bottom: 20px;
@@ -50,17 +50,17 @@ exports.sendEmail = async (req, res) => {
                             .section strong {
                                 display: block;
                                 margin-bottom: 5px;
+                                color: #333;
+                                font: bold;
+                                font-size: medium;
+                                text-underline-position: below;
+                                text-decoration: underline;
+                    
                             }
                             .section p {
                                 margin: 5px 0;
-                            }
-                            .button {
-                                display: inline-block;
-                                padding: 10px 20px;
-                                background-color: #ff4081;
-                                color: white;
-                                text-decoration: none;
-                                border-radius: 5px;
+                                font: normal;
+                                font-size: medium;
                             }
                         </style>
                     </head>
@@ -128,8 +128,7 @@ exports.sendEmail = async (req, res) => {
             from: emailHost,
             to: userEmail,
             subject: "Detail Medical Record - DiCheck",
-            text: "",
-            html: htmlContent1
+            data: checks[0],
         });
         await email.save();
 

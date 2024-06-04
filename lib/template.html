@@ -17,6 +17,8 @@
         }
         h1 {
             color: #333;
+            font: bold;
+            font-size: x-large;
         }
         .section {
             margin-bottom: 20px;
@@ -24,9 +26,17 @@
         .section strong {
             display: block;
             margin-bottom: 5px;
+            color: #333;
+            font: bold;
+            font-size: medium;
+            text-underline-position: below;
+            text-decoration: underline;
+
         }
         .section p {
             margin: 5px 0;
+            font: normal;
+            font-size: medium;
         }
     </style>
 </head>
@@ -61,12 +71,6 @@
         <div class="section">
             <strong>Keterangan</strong>
             <p>Kamu menerima detail check ini pada tanggal ${check.record_date}</p>
-        </div>
-        `).join('')}
-        <div class="section">
-            <strong>Love Message</strong>
-            <p>❤️ Kami ada sedikit hadiah untuk kamu, diklik ya! 💖</p>
-            <a href="${loveMessageLink}" class="button">Click for surprise</a>
         </div>
     </div>
 </body>
